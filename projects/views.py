@@ -22,7 +22,7 @@ def project(request, pk):
     projectObj = Project.objects.get(id=pk)
     form = ReviewForm()
 
-    if request.method == 'POST':
+    if request.method == "POST":
         form = ReviewForm(data=request.POST)
         if form.is_valid():
             review = form.save(commit=False)
@@ -30,9 +30,11 @@ def project(request, pk):
             review.owner = request.user.profile
             review.save()
             projectObj.getVoteCount
-            messages.success(request, 'Your Review added successfully')
-            return redirect('project', pk=projectObj.id)    
-    return render(request, "projects/single-project.html", {"projectObj": projectObj, 'form': form})
+            messages.success(request, "Your Review added successfully")
+            return redirect("project", pk=projectObj.id)
+
+    context = {"projectObj": projectObj, "form": form}
+    return render(request, "projects/single-project.html", context)
 
 
 @login_required(login_url="login")
