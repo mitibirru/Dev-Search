@@ -4,6 +4,14 @@ from users.models import Profile
 from django.db.models.deletion import CASCADE
 
 # Create your models here.
+class Tag(models.Model):
+    name = models.CharField(max_length=200)
+    created = models.DateTimeField(auto_now_add=True)
+    id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, primary_key=True)
+
+    def __str__(self):
+        return self.name
+
 class Project(models.Model):
     owner = models.ForeignKey(Profile, null=True, blank=True, on_delete=models.SET_NULL)
     title = models.CharField(max_length=200)
@@ -56,13 +64,3 @@ class Review(models.Model):
 
     def __str__(self):
         return self.value
-
-
-
-class Tag(models.Model):
-    name = models.CharField(max_length=200)
-    created = models.DateTimeField(auto_now_add=True)
-    id = models.UUIDField(default=uuid.uuid4, unique=True, editable=False, primary_key=True)
-
-    def __str__(self):
-        return self.name
